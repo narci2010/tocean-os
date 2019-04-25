@@ -1,0 +1,165 @@
+# 系统名称
+app:  
+    nameKey: appname
+    #开放文件系统上的资源给http访问（有oss系统的公司，最好不需要这些功能）
+    #fileurls: {baseAccessPath: '/pdf/',baseDir: 'E:/zyctb/pdf/,/usr/home/pdf/'}
+    #开放类路径上的资源给http访问（有oss系统的公司，最好不需要这些功能）
+    #classpathurls: {baseAccessPath: '/pdf/',baseDir: '/META-INF/pdf/'}
+    #welcomePage: index.html
+    
+# Tomcat
+#(spring boot 1.x)
+#security: 
+#  require-ssl: true 
+server:
+    tomcat:
+        uri-encoding: UTF-8
+        max-threads: 1000
+        min-spare-threads: 30
+    port: 8441
+    connection-timeout: 5000
+    #context-path: / spring boot 1.x
+    servlet: 
+      context-path: / 
+    ssl: 
+      key-store-type: PKCS12
+      key-store: classpath:server.p12
+      key-store-password: tocean@788
+    http: 
+      port: 80
+#    error: 
+#      path: /errors
+
+spring:
+    # 环境 dev|test|pro
+    profiles:
+        active: dev
+    # jackson时间格式化（自动格式化日期）
+    jackson:
+        time-zone: GMT+8
+        date-format: yyyy-MM-dd HH:mm:ss
+    servlet:
+        multipart:
+            max-file-size: 100MB
+            max-request-size: 100MB
+            enabled: true
+        encoding: 
+            charset: UTF-8
+            force: true
+            enabled: true    
+    resources: # 指定静态资源的路径
+        static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/views/,classpath:/resources/templates/
+    social:
+      wechat:
+        app-id: wx565c70bbc4a1cbc3
+        app-secret: 52753ed66c5db0074ce66b8917f94a77
+        redirect-url: http://devos.toceansoft.com:8080/#/wechatCallback
+      wechatmp:
+        app-id: wxa04dfacf0c9aa34c
+        app-secret: 516d99dab585ce4887d9b8e0698057bf
+        redirect-url: http://weixinmp.toceansoft.com/api/weixin/callback2
+        scope: snsapi_userinfo
+      qq:
+        app-id: 101544881
+        app-secret: 574699a7daceffd1d6a566e0767727b3
+        # http://open.qq.com/tools?act=url_encode
+        redirect-url: http://devos.toceansoft.com:8080/#/qqCallback
+      sina:
+        app-id: 1798692639
+        app-secret: 07e4e52a8c8de5c7ae884d7a94538ad5
+        redirect-url: http://devos.toceansoft.com:8080/#/sinaCallback
+# Mybatis配置 classpath*:多个*可以读jar包中的xml文件
+mybatis:
+    mapperLocations: classpath:mapper/**/*.xml,classpath*:com/toceansoft/mapper/**/*.xml
+    configLocation: classpath:mybatis.xml
+
+#对本系统架构不熟悉就千万不要随便修改
+jwtconfig:
+    # 模块，是通过jwt认证的，【加密秘钥】
+    jwt:
+        # 加密秘钥
+        secret: 9sntBhgi5qURGXkh8CFOpUg98EMrpGfjPb3PcT89G1wvP1mhk5S1HQrI40Le43DyAtJGt8TYWneMwqNV4UseK7zKV3yqrtnAcT8PqRHIpkghj0AT1SFVwuSCvDYQJreZ
+        # token有效时长，86400:1天，单位秒120
+        expire: 86400
+        header: token
+logging:
+  file: ${user.home}/toceansoft/system.log
+  level.*: WARN
+  level.com.toceansoft: DEBUG
+#出现错误时, 直接抛出异常
+spring.mvc.throw-exception-if-no-handler-found: true
+#为我们工程中的资源文件建立映射
+spring.resources.add-mappings: true
+
+#session过期时间，单位毫秒(86400000,24小时)：后台对象缓存，测试用2分钟120000
+session: 
+  timeout: 86400000
+#token超时时间，单位秒(86400,24小时)：登陆授权
+token: 
+  expire: 86400
+#记住我功能：默认7天有效  （前后台分离，默认提供此功能）
+#rememberme: 
+#  maxage: 604800  
+
+#密码加密算法及加密迭代次数(迭代次数越多越安全，但运算时间越长)
+password: 
+  algorithmName: md5
+  hashIterations: 2
+  #密码错误到达最大值后锁定账号时间（毫秒）：3分钟
+  retryDelayTime: 180000
+  #允许密码错误次数，3表示允许错误3次，第4次开始锁定
+  allowretryTimes: 3
+#404 会跳到index，原因是server做了history路由处理，如果前端不采用history路由，则可以去掉这个逻辑
+shiro: 
+  security: 
+    #anon匿名可以访问过滤器(过滤多个url，要用单引号包括起来，里面的url用逗号分隔) formFilter登陆过滤器  oauth2:token访问过滤器
+    filters: {anon: '/sys/logout,/sys/user/info/**/,/api/**,/sys/syslisence/systemname/**,/sys/syslisence/systemurl/**,/sys/syslisence/register,/sys/syslisence/registerAgain,/sys/syslisence/apply,/sys/syslisence/grant,/weixinpay/**,/alipay/**,/qrcode/**,/webjars/**,/druid/**,/app/**,/sys/validate,/sys/isLogin,/**/*.ico,/**/*.jpg,/**/*.css,/**/*.js,/**/*.html,/v2/**,/fonts/**,/plugins/**,/swagger/**,/swagger-resources/**,/,/swagger-ui.html,/login/**',formFilter: '/sys/login',wechatFilter: '/sys/wechatLogin',qqFilter: '/sys/qqLogin',sinaFilter: '/sys/sinaLogin',oauth2: '/**'}
+    #oauth2不拦截的URL /sys/login如果拦截的话，会跟formFilter有冲突
+    oauth2ExcludeUrls: 
+      - /sys/logout1
+      - /sys/logout2
+      - /sys/login
+    #key为url，value为能够访问key这些url的角色
+    roleFilters: {'/normal/**': 'teacher,student,normal','/admin/**': 'admin'}
+    roleFilterNotLogin: {'/admin': '/adminLogin.html','/normal': '/normalLogin.html'}
+    #登陆用户，没权限访问当前资源，则不同角色跳转到不同的成功登陆页面
+    roleFilterLogin: {'admin': '/adminSuccess.html','teacher': '/normalSuccess.html'}
+  cas1: 
+    client-name: app1
+    server-url: https://localhost:8443/cas
+    service-url: http://localhost
+    callback-url: /login/callback
+    casfilter-url: /login/cas1
+    logout-url: /sys/logout1
+  cas2:
+    client-name: app2
+    server-url: https://ssointest.zy.com:18443
+    service-url: http://localhost
+    callback-url: /login/callback2
+    casfilter-url: /login/cas2
+    logout-url: /sys/logout2
+  default:  
+    loginurl: /sys/login
+    successurl: /index.html
+    userparam: username
+    passwordparam: password
+    remembermeparam: rememberMe
+# spring.thymeleaf.mode: LEGACYHTML5
+spring.thymeleaf.cache: false
+spring.thymeleaf.cache-period: 0
+spring.thymeleaf.template.cache: false
+spring.thymeleaf.check-template: false
+spring.thymeleaf.check-template-location: false
+#spring.thymeleaf.prefix: /templates/
+#spring.thymeleaf.suffix: .html
+# 配置jsp文件的位置，默认位置为：main/java/resources
+#spring.mvc.view.prefix: /templates/
+# 配置jsp文件的后缀
+#spring.mvc.view.suffix: .html
+
+# 是否启动系统默认服务
+spring.devos.default.service: true
+# 主键生产机制
+id: 
+  workerid: 0
+  datacenterid: 0

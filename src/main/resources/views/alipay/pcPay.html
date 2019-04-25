@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>微信支付</title>
+<meta charset="UTF-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
+<script src="http://code.jquery.com/jquery.js"></script>
+</head>
+<body>
+<div align="center" id="div1"></div>
+</body>
+<script type="text/javascript">
+// 使用encodeURI()编码后的结果是除了空格之外的其他字符都原封不动，只有空格被替换成了%20。而encodeURIComponent()方法则会使用对应的编码替换所有非字母数字字符。这也正是可以对整个URI使用encodeURI()，而只能对附加在现有URI后面的字符串使用encodeURIComponent()的原因所在。一般来说,我们使用encodeURIComponent()方法的时候要比使用encodeURI()更多,因为在实践中更常见的是对查询字符串参数而不是对基础URL进行编码.
+var form=GetUrlParam("form");
+form=decodeURIComponent(form);
+console.log(form);
+$("div").append(form);
+	
+
+//paraName 等找参数的名称
+function GetUrlParam(paraName) {
+　　var url = document.location.toString();
+　　var arrObj = url.split("?");
+
+　　if (arrObj.length > 1) {
+　　　　var arrPara = arrObj[1].split("&");
+　　　　var arr;
+
+　　　　for (var i = 0; i < arrPara.length; i++) {
+　　　　　　arr = arrPara[i].split("=");
+
+　　　　　　if (arr != null && arr[0] == paraName) {
+　　　　　　　　return arr[1];
+　　　　　　}
+　　　　}
+　　　　return "";
+　　}
+　　else {
+　　　　return "";
+　　}
+}
+</script>
+</html>

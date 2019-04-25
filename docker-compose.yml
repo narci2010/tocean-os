@@ -1,0 +1,13 @@
+version: '3.3'
+services:
+  toceansoft-dev:
+    image: toceansoft-dev
+    ports:
+      - "8080:8080"
+      - "8441:8441"
+    environment:
+      - spring.profiles.active=pro
+    restart: always
+    external_links: 
+      - tocean-redis
+      - tocean-mysql

@@ -1,0 +1,70 @@
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.jdbc.Driver
+        druid:
+            first:
+                url: jdbc:mysql://192.168.3.94:3306/tocean_dev?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+                username: root
+                password: toceanadmin123
+            second:
+                url: jdbc:mysql://192.168.3.94:3306/information_schema?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+                username: root
+                password: toceanadmin123
+            initial-size: 10
+            max-active: 100
+            min-idle: 10
+            max-wait: 60000
+            pool-prepared-statements: true
+            max-pool-prepared-statement-per-connection-size: 20
+            time-between-eviction-runs-millis: 60000
+            min-evictable-idle-time-millis: 300000
+            validation-query: SELECT 1 FROM DUAL
+            test-while-idle: true
+            test-on-borrow: false
+            test-on-return: false
+            stat-view-servlet:
+                enabled: true
+                url-pattern: /druid/*
+                #login-username: admin
+                #login-password: admin
+            filter:
+                stat:
+                    log-slow-sql: true
+                    slow-sql-millis: 1000
+                    merge-sql: true
+                wall:
+                    config:
+                        multi-statement-allow: true
+    redis:
+        #open: false  # 是否开启redis缓存  true开启   false关闭
+        database: 0
+        host: 192.168.3.94
+        port: 6379
+        password:       # 密码（默认为空）
+        timeout: 6000  # 连接超时时长（毫秒）
+            
+# 跨域相关配置
+cors: 
+  withCredentials: false
+  allowedheaders: Content-Type, Access-Control-Allow-Headers, Authorization,X-Requested-With,X-Requested-By, If-Modified-Since, X-File-Name, X-File-Type, Cache-Control, Origin,token
+  exposedheaders: Content-Type, Access-Control-Allow-Headers, Authorization,X-Requested-With,token
+  allowedmethods: GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS,TRACE
+  allowedorigins: http://localhost:8080,http://devos.toceansoft.com:8080, http://devos.toceansoft.com,http://192.168.1.133:8080, http://192.168.1.25:8080, http://192.168.1.188:8080, http://192.168.1.18:8080, http://192.168.1.48:8080
+
+#项目地址
+server.context.url: http://weixinmp.toceansoft.com/
+#支付宝后台回调
+alipay.notify.url: http://weixinmp.toceansoft.com/alipay/callBack
+#支付成功后跳转到前端页面url
+alipay.return.url: http://weixinmp.toceansoft.com/alipay/returnUrl
+#微信后台回调  (模式1第二次回调URL,注意与微信支付后台设置的回调区别；模式2回调)
+wexinpay.notify.url: http://weixinmp.toceansoft.com/weixinpay/payFinishCallBack
+wexinpay.mobile.notify.url: http://weixinmp.toceansoft.com/weixinpay/mobileCallBack
+#银联后台回调
+#unionpay.notify.url: https://blog.52itstyle.com/union/pay  
+
+# 保存音频文件路径
+upload-path: /rj/upload-path/
+# ffmpeg路径
+ffmpeg-path: /usr/bin

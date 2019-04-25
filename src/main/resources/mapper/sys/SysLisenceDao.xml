@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.toceansoft.dev.sys.dao.SysLisenceDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+	<resultMap type="com.toceansoft.dev.sys.entity.SysLisenceEntity"
+		id="sysLisenceMap">
+		<result property="privatekey" column="privateKey" />
+		<result property="publickey" column="publicKey" />
+		<result property="privatekey2" column="privateKey2" />
+		<result property="publickey2" column="publicKey2" />
+		<result property="systemuid" column="systemUid" />
+		<result property="signkey" column="signKey" />
+		<result property="lisenceId" column="lisence_id" />
+		<result property="applydate" column="applyDate" />
+		<result property="grantdate" column="grantDate" />
+		<result property="usingtype" column="usingType" />
+		<result property="serverHost" column="serverHost" />
+		<result property="systemName" column="systemName" />
+		<result property="dueDays" column="dueDays" />
+		<result property="serverUrl" column="serverUrl" />
+	</resultMap>
+
+	<select id="queryObject" resultType="com.toceansoft.dev.sys.entity.SysLisenceEntity">
+		select * from sys_lisence
+		where lisence_id = #{value}
+	</select>
+
+	<!-- modify by Narci -->
+	<select id="queryList" resultType="com.toceansoft.dev.sys.entity.SysLisenceEntity">
+		select * from sys_lisence
+		<where>
+			<if test="key != null">
+				unix_timestamp(applyDate) >= unix_timestamp(#{key})
+			</if>
+		</where>
+		<choose>
+			<when test="sidx != null and sidx.trim() != ''">
+				order by ${sidx} ${order}
+			</when>
+			<otherwise>
+				order by lisence_id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	<!-- modify by Narci -->
+
+	<select id="queryTotal" resultType="int">
+		select count(*) from
+		sys_lisence
+	</select>
+
+	<insert id="save" parameterType="com.toceansoft.dev.sys.entity.SysLisenceEntity"
+		useGeneratedKeys="true" keyProperty="lisenceId">
+		insert into sys_lisence
+		(
+		`privateKey`,
+		`publicKey`,
+		`privateKey2`,
+		`publicKey2`,
+		`systemUid`,
+		`signKey`,
+		`applyDate`,
+		`grantDate`,
+		`usingType`,
+		`serverHost`,
+		`systemName`,
+		`dueDays`,
+		`serverUrl`
+		)
+		values
+		(
+		#{privatekey},
+		#{publickey},
+		#{privatekey2},
+		#{publickey2},
+		#{systemuid},
+		#{signkey},
+		#{applydate},
+		#{grantdate},
+		#{usingtype},
+		#{serverHost},
+		#{systemName},
+		#{dueDays},
+		#{serverUrl}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.toceansoft.dev.sys.entity.SysLisenceEntity">
+		update sys_lisence
+		<set>
+			<if test="privatekey != null">`privateKey` = #{privatekey}, </if>
+			<if test="publickey != null">`publicKey` = #{publickey}, </if>
+			<if test="privatekey2 != null">`privateKey2` = #{privatekey2}, </if>
+			<if test="publickey2 != null">`publicKey2` = #{publickey2}, </if>
+			<if test="systemuid != null">`systemUid` = #{systemuid}, </if>
+			<if test="signkey != null">`signKey` = #{signkey}, </if>
+			<if test="applydate != null">`applyDate` = #{applydate}, </if>
+			<if test="grantdate != null">`grantDate` = #{grantdate}, </if>
+			<if test="usingtype != null">`usingType` = #{usingtype},</if>
+			<if test="serverHost != null">`serverHost` = #{serverHost},</if>
+			<if test="systemName != null">`systemName` = #{systemName},</if>
+			<if test="dueDays != null">`dueDays` = #{dueDays},</if>
+			<if test="serverUrl != null">`serverUrl` = #{serverUrl}</if>
+		</set>
+		where lisence_id = #{lisenceId}
+	</update>
+
+	<delete id="delete">
+		delete from sys_lisence where lisence_id = #{value}
+	</delete>
+
+	<delete id="deleteBatch">
+		delete from sys_lisence where lisence_id in
+		<foreach item="lisenceId" collection="array" open="("
+			separator="," close=")">
+			#{lisenceId}
+		</foreach>
+	</delete>
+
+	<!-- add by Narci -->
+	<select id="queryBySystemuid" resultType="com.toceansoft.dev.sys.entity.SysLisenceEntity">
+		select * from
+		sys_lisence
+		where systemuid = #{value}
+	</select>
+	<select id="countBySystemuid" resultType="int">
+		select count(*) from
+		sys_lisence
+		where systemuid = #{value}
+	</select>
+	<update id="updateGrantDateThruLisenceId">
+		update sys_lisence set grantDate=
+		#{grantDate},dueDays= #{dueDays} where
+		lisence_id = #{lisenceId}
+	</update>
+	<update id="updateSystemNameThruServerHost">
+		update sys_lisence set systemName=
+		#{systemName} where
+		serverHost = #{serverHost}
+	</update>
+
+	<update id="updateServerUrlThruServerHost">
+		update sys_lisence set serverUrl=
+		#{serverUrl} where
+		serverHost = #{serverHost}
+	</update>
+</mapper>
