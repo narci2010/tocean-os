@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.toceansoft.common.exception.RRException;
-import com.toceansoft.common.json.JacksonUtil;
+import com.toceansoft.common.json.JsonUtil;
 import com.toceansoft.common.utils.IPUtils;
 import com.toceansoft.common.utils.PageUtils;
 import com.toceansoft.common.utils.Query;
@@ -155,7 +155,7 @@ public class SysLisenceController {
 		log.debug("enter register:" + json);
 		SysLisenceEntity sysLisence = null;
 		try {
-			sysLisence = (SysLisenceEntity) JacksonUtil.json2Bean(json, SysLisenceEntity.class);
+			sysLisence = (SysLisenceEntity) JsonUtil.json2Bean(json, SysLisenceEntity.class);
 		} catch (JsonParseException e) {
 			throw new RRException("解释Json失败。", e);
 		} catch (JsonMappingException e) {
@@ -195,7 +195,7 @@ public class SysLisenceController {
 		log.debug("enter register:" + json);
 		SysLisenceEntity sysLisence = null;
 		try {
-			sysLisence = (SysLisenceEntity) JacksonUtil.json2Bean(json, SysLisenceEntity.class);
+			sysLisence = (SysLisenceEntity) JsonUtil.json2Bean(json, SysLisenceEntity.class);
 		} catch (JsonParseException e) {
 			throw new RRException("解释Json失败。", e);
 		} catch (JsonMappingException e) {
@@ -241,7 +241,7 @@ public class SysLisenceController {
 		log.debug("enter apply:" + json);
 		SysLisenceEntity sysLisence = null;
 		try {
-			sysLisence = (SysLisenceEntity) JacksonUtil.json2Bean(json, SysLisenceEntity.class);
+			sysLisence = (SysLisenceEntity) JsonUtil.json2Bean(json, SysLisenceEntity.class);
 		} catch (JsonParseException e) {
 			throw new RRException("解释Json失败。", e);
 		} catch (JsonMappingException e) {

@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["menu2"],{dbb3:function(e,t,n){"use strict";n.r(t);var l=function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("div",{staticStyle:{padding:"30px"}},[n("el-alert",{attrs:{closable:!1,title:"menu 2"}})],1)},a=[],s={},u=s,c=n("2877"),i=Object(c["a"])(u,l,a,!1,null,null,null);t["default"]=i.exports}}]);
+//# sourceMappingURL=menu2.15f96fce.js.map

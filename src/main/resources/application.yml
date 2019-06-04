@@ -16,15 +16,16 @@ server:
         uri-encoding: UTF-8
         max-threads: 1000
         min-spare-threads: 30
-    port: 8441
+    port: 443
     connection-timeout: 5000
     #context-path: / spring boot 1.x
     servlet: 
       context-path: / 
     ssl: 
       key-store-type: PKCS12
-      key-store: classpath:server.p12
-      key-store-password: tocean@788
+      key-store: classpath:devos.p12
+      # renji.toceansoft.com tocean@788 server.p12
+      key-store-password: tocean788
     http: 
       port: 80
 #    error: 
@@ -33,7 +34,7 @@ server:
 spring:
     # 环境 dev|test|pro
     profiles:
-        active: dev
+        active: pro
     # jackson时间格式化（自动格式化日期）
     jackson:
         time-zone: GMT+8

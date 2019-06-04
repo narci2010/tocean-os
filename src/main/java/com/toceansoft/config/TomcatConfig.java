@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Configuration
 @Slf4j
-@Profile({ "dev", "test", "pro" })
+@Profile({ "dev", "docker", "test", "pro" })
 public class TomcatConfig {
 
 	@Value("${server.http.port:8080}")
