@@ -16,7 +16,7 @@ server:
         uri-encoding: UTF-8
         max-threads: 1000
         min-spare-threads: 30
-    port: 443
+    port: 8443
     connection-timeout: 5000
     #context-path: / spring boot 1.x
     servlet: 
@@ -34,7 +34,7 @@ server:
 spring:
     # 环境 dev|test|pro
     profiles:
-        active: pro
+        active: dev
     # jackson时间格式化（自动格式化日期）
     jackson:
         time-zone: GMT+8
